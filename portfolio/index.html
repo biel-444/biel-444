@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gabriel de Vargas — Portfólio</title>
+<meta name="description" content="Portfólio em pixel art de Gabriel de Vargas: HTTPFrequency, write-ups de segurança, habilidades e contato.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+<style>
+:root{--px:'Press Start 2P',monospace;--body:'VT323',monospace;--ink:#2b1d3a}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--body);font-size:1.4rem;line-height:1.25;color:var(--ink);background:#7fd0ff;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;color:inherit}
+h1,h2,h3{font-family:var(--px);line-height:1.5;font-weight:400}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.skip{position:fixed;left:8px;top:-80px;z-index:200;background:#ffd23f;color:#2b1d3a;border:4px solid #2b1d3a;padding:12px 16px;font-family:var(--px);font-size:.7rem}
+.skip:focus{top:8px}
+:focus-visible{outline:4px solid #ff2d95;outline-offset:3px}
+.zone-sec :focus-visible,#modal :focus-visible,body.zone-sec-on #hud :focus-visible{outline-color:#ffd23f}
+#fx{position:fixed;inset:0;z-index:1;pointer-events:none}
+/* gutter à esquerda: é onde o boneco fica pendurado */
+.wrap{position:relative;z-index:2;max-width:1100px;margin:0 auto;padding:0 24px 0 60px}
+@media(min-width:900px){.wrap{padding-left:108px}}
+section{position:relative}
+section.pad{padding:96px 0}
+
+/* ===== ZONAS ===== */
+.zone-dev{background:linear-gradient(#58bdff 0 18%,#74c9ff 18% 36%,#94d6ff 36% 54%,#b3e3ff 54% 72%,#d0efff 72% 100%)}
+.zone-sec{background-color:#050b09;color:#c9ffe0;background-image:linear-gradient(rgba(0,255,136,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,255,136,.04) 1px,transparent 1px);background-size:32px 32px}
+
+/* ===== PAINÉIS / BOTÕES ===== */
+.px{position:relative;border:4px solid var(--ink);background:#fff6d6;box-shadow:6px 6px 0 var(--ink);padding:22px}
+.zone-sec .px{border-color:#00ff88;background:#07140f;box-shadow:6px 6px 0 #00ff88,0 0 30px rgba(0,255,136,.18)}
+.hov{transition:transform .12s steps(2),box-shadow .12s steps(2)}
+.hov:hover{transform:translate(-3px,-3px);box-shadow:9px 9px 0 var(--ink)}
+.zone-sec .hov:hover{box-shadow:9px 9px 0 #00ff88,0 0 40px rgba(0,255,136,.35)}
+.btn{display:inline-flex;align-items:center;min-height:48px;font-family:var(--px);font-size:.7rem;line-height:1.4;padding:12px 18px;border:4px solid var(--ink);background:#ffd23f;box-shadow:4px 4px 0 var(--ink);cursor:pointer;transition:transform .08s steps(2),box-shadow .08s steps(2)}
+.btn:hover{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--ink)}
+.btn.alt{background:#fff}
+.zone-sec .btn,#modal .btn{background:#00ff88;color:#021;border-color:#00ff88;box-shadow:4px 4px 0 #046}
+.zone-sec .btn.alt,#modal .btn.alt{background:transparent;color:#00ff88}
+.title-h{font-size:clamp(1rem,2.6vw,1.4rem);margin-bottom:8px}
+.stage-tag{display:inline-block;font-family:var(--px);font-size:.65rem;background:var(--ink);color:#ffd23f;padding:6px 10px;margin-bottom:14px}
+.zone-sec .stage-tag{background:#00ff88;color:#021}
+.lead{max-width:60ch;margin-bottom:34px;font-size:1.5rem}
+
+/* ===== HUD ===== */
+#hud{position:fixed;top:0;left:0;right:0;z-index:50;background:var(--ink);color:#fff;border-bottom:4px solid #000;font-family:var(--px);font-size:.65rem}
+#hud .row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:0 14px;min-height:52px;flex-wrap:wrap}
+#hud nav{display:flex;gap:2px;flex-wrap:wrap}
+#hud nav a{display:inline-flex;align-items:center;min-height:44px;padding:0 9px;border:2px solid transparent}
+#hud nav a:hover{border-color:#ffd23f;color:#ffd23f}
+#hud .hearts{color:#ff8aa0;letter-spacing:2px}
+#xp{height:8px;background:#000}
+#xp i{display:block;height:100%;width:0;background:repeating-linear-gradient(90deg,#ffd23f 0 8px,#ffb000 8px 16px)}
+body.zone-sec-on #hud{background:#02100a;color:#00ff88;border-bottom-color:#00ff88}
+body.zone-sec-on #xp i{background:repeating-linear-gradient(90deg,#00ff88 0 8px,#00b866 8px 16px)}
+body.zone-sec-on #hud nav a:hover{border-color:#00ff88}
+@media(max-width:820px){#hud nav{order:3;width:100%;overflow-x:auto;flex-wrap:nowrap}}
+
+/* ===== PERSONAGEM (preto e verde, sempre igual) ===== */
+#hero{position:fixed;left:0;top:0;z-index:45;width:72px;height:96px;pointer-events:none;will-change:transform;opacity:0}
+#sprite{width:100%;height:100%;image-rendering:pixelated;display:block;
+  filter:drop-shadow(2px 0 0 #00ff88) drop-shadow(-2px 0 0 #00ff88) drop-shadow(0 2px 0 #00ff88) drop-shadow(0 -2px 0 #00ff88)}
+@media(max-width:899px){#hero{width:48px;height:64px}#sprite{filter:drop-shadow(1px 0 0 #00ff88) drop-shadow(-1px 0 0 #00ff88) drop-shadow(0 1px 0 #00ff88) drop-shadow(0 -1px 0 #00ff88)}}
+
+/* ===== INÍCIO ===== */
+#inicio{min-height:100vh;display:flex;align-items:center;padding:120px 0 100px}
+#inicio .wrap{width:100%}
+#inicio h1{font-size:clamp(1.5rem,5.2vw,3.4rem);text-shadow:4px 4px 0 #fff;margin-bottom:18px}
+#inicio .sub{font-family:var(--px);font-size:clamp(.65rem,1.5vw,.8rem);line-height:2;margin-bottom:34px;background:#fff6d6;border:4px solid var(--ink);box-shadow:4px 4px 0 var(--ink);display:inline-block;padding:8px 12px}
+.start{display:flex;gap:16px;flex-wrap:wrap}
+.blink{animation:blink 1s steps(2) infinite}
+@keyframes blink{50%{opacity:0}}
+.sun{position:absolute;right:8%;top:130px;width:96px;height:96px;background:#ffd23f;box-shadow:0 0 0 8px #ffe680,0 0 0 16px rgba(255,230,128,.5)}
+
+/* ===== SKILLS & BADGES ===== */
+.skill-cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:26px;margin-bottom:56px}
+.skill-cols h3{font-size:.75rem;margin-bottom:14px}
+.skill{margin-bottom:14px}
+.skill .n{display:flex;justify-content:space-between;gap:8px}
+.skill .n small{font-size:1.1rem;color:#6a5a80}
+.bar{display:flex;gap:3px;margin-top:4px}
+.bar i{flex:1;height:12px;border:2px solid var(--ink);background:#fff}
+.bar i.on{background:#7c5cff}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.chips span{font-size:1.1rem;padding:1px 9px;border:2px solid var(--ink);background:#e8dcae}
+.sub-h{font-family:var(--px);font-size:.58rem;margin:16px 0 4px;color:#6a5a80}
+.badges{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:22px;list-style:none}
+.badge{display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px;padding:18px 12px}
+.badge .medal{width:64px;height:64px;display:grid;place-items:center;font-family:var(--px);font-size:1.1rem;border:4px solid var(--ink);background:#ffd23f;box-shadow:4px 4px 0 var(--ink);clip-path:polygon(0 8px,8px 8px,8px 0,calc(100% - 8px) 0,calc(100% - 8px) 8px,100% 8px,100% calc(100% - 8px),calc(100% - 8px) calc(100% - 8px),calc(100% - 8px) 100%,8px 100%,8px calc(100% - 8px),0 calc(100% - 8px))}
+.badge b{font-family:var(--px);font-size:.62rem;font-weight:400;line-height:1.6}
+.badge small{font-size:1.15rem;overflow-wrap:anywhere;max-width:100%}
+.about{display:grid;grid-template-columns:1.4fr 1fr;gap:28px}
+@media(max-width:820px){.about{grid-template-columns:1fr}}
+.about p+p{margin-top:12px}
+.edu h3{font-size:.75rem;margin-bottom:12px}
+.edu b{font-weight:400;font-size:1.5rem}
+.patch{display:flex;align-items:center;gap:14px;margin-top:18px}
+.patch img{flex:none;width:96px;height:96px;filter:drop-shadow(3px 3px 0 var(--ink))}
+.patch span{font-family:var(--px);font-size:.58rem;line-height:1.8}
+.badge .mw{position:relative;display:inline-block}.badge .mw .corner{position:absolute;top:-12px;right:-16px;line-height:0;filter:drop-shadow(2px 2px 0 var(--ink))}.badge .medal.hf{background:#c8f5d4}.edu .status{font-family:var(--px);font-size:.55rem;margin-top:10px;color:#7a3b00}
+.medal-img{width:88px;height:88px;filter:drop-shadow(3px 3px 0 var(--ink))}
+.trail h3{font-size:.75rem;margin-bottom:6px}
+.trail .meta{font-family:var(--px);font-size:.55rem;color:#a02a52;margin-bottom:14px;line-height:1.8}
+.mods{list-style:none;display:grid;gap:6px}
+.mods a{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:4px 10px;min-height:44px;border:2px solid var(--ink);background:#e8dcae;line-height:1.1}
+.mods a:hover{background:#ffd23f}
+.mods small{font-size:1.05rem;color:#6a5a80;white-space:nowrap}
+.badge .tag{font-family:var(--px);font-size:.55rem;padding:3px 6px;background:var(--ink);color:#ffd23f}
+
+/* ===== PROJETO PRINCIPAL ===== */
+.feat{max-width:760px;display:flex;flex-direction:column;gap:14px}
+.feat h3{font-size:1rem}
+.feat .st{font-family:var(--px);font-size:.58rem;color:#00d4ff}
+.feat ul{list-style:none;display:grid;gap:6px}
+.feat li::before{content:"▶ ";color:#00ff88}
+.tags{display:flex;flex-wrap:wrap;gap:6px}
+.tags span{font-size:1.05rem;padding:1px 8px;border:2px solid currentColor}
+.feat .btn{align-self:flex-start}
+
+/* ===== DESCIDA ===== */
+#descida{height:120vh;overflow:hidden;background:linear-gradient(to bottom,transparent 0,transparent 60%,#050b09 100%),repeating-linear-gradient(0deg,#7a4a2a 0 16px,#6b3f23 16px 32px)}
+#descida::before{content:"";position:absolute;left:0;right:0;top:0;height:48px;background:repeating-linear-gradient(90deg,#3fb04f 0 16px,#35983f 16px 32px);border-bottom:16px solid #2a7a33;box-shadow:0 16px 0 #5b3a1f}
+#descida .dots{position:absolute;inset:0;background-image:radial-gradient(#4f2f18 3px,transparent 4px),radial-gradient(#9b6a3f 2px,transparent 3px);background-size:64px 64px,40px 40px;background-position:0 0,20px 30px;opacity:.7}
+#descida .wrap{display:flex;flex-direction:column;justify-content:center;height:100%;padding-top:80px}
+#descida h2{font-size:clamp(.9rem,2.6vw,1.5rem);color:#fff;text-shadow:4px 4px 0 #000;margin-bottom:20px}
+.arrows{font-family:var(--px);font-size:2rem;color:#ffd23f;text-shadow:4px 4px 0 #000;animation:fall 1s steps(4) infinite}
+@keyframes fall{0%{transform:translateY(-10px);opacity:.2}100%{transform:translateY(20px);opacity:1}}
+.layer{font-family:var(--px);font-size:.65rem;color:#ffe9c2;margin-top:34px;line-height:2.4;text-shadow:2px 2px 0 #000}
+
+/* ===== MISSÕES ===== */
+.quests{display:grid;gap:22px}
+.quest{display:grid;grid-template-columns:auto 1fr auto;gap:16px;align-items:center;cursor:pointer;text-align:left;width:100%;background:#07140f;color:#c9ffe0;border:4px solid #00ff88;box-shadow:6px 6px 0 #00ff88;padding:16px 18px;transition:background .12s steps(2)}
+.quest:hover{background:#0b2217}
+.quest .ico{font-size:2rem}
+.quest b{font-family:var(--px);font-size:.72rem;font-weight:400;display:block;margin-bottom:6px;color:#00ff88}
+.quest small{font-size:1.2rem;color:#8fd8b0}
+.quest .xp{font-family:var(--px);font-size:.62rem;color:#ffd23f;text-align:right;line-height:1.8}
+.stars{color:#ffd23f;letter-spacing:2px}
+
+/* ===== MODAL ===== */
+#modal{position:fixed;inset:0;z-index:100;background:rgba(0,0,0,.78);display:none;align-items:center;justify-content:center;padding:16px}
+#modal.open{display:flex}
+#modal .box{max-width:680px;width:100%;max-height:90vh;overflow:auto;background:#07140f;color:#c9ffe0;border:4px solid #00ff88;box-shadow:8px 8px 0 #00ff88,0 0 60px rgba(0,255,136,.3);padding:26px}
+#modal h3{font-size:.85rem;color:#00ff88;margin-bottom:10px}
+#modal .meta{font-family:var(--px);font-size:.58rem;color:#ffd23f;margin-bottom:16px;line-height:2}
+#modal ol{margin:12px 0 18px 26px}
+#modal li{margin-bottom:4px}
+#modal .note{border:2px dashed #ffd23f;color:#ffd23f;padding:8px;margin-bottom:16px;font-size:1.2rem}
+#modal .tags{margin-bottom:20px;color:#8fd8b0}
+#modal .acts{display:flex;gap:12px;flex-wrap:wrap}
+
+/* ===== CONTATO / RODAPÉ ===== */
+.save-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:24px}
+.save-grid .px b{display:block;font-family:var(--px);font-size:.75rem;color:#00ff88;margin-bottom:8px}
+.save-grid .off{opacity:.7;border-style:dashed}
+footer{position:relative;z-index:2;padding:50px 0 70px;text-align:center;font-family:var(--px);font-size:.62rem;line-height:2.2;color:#7fd9a6;background:#050b09}
+footer a{text-decoration:underline}
+
+/* ===== REVEAL ===== */
+.rv{opacity:0;transform:translateY(24px);transition:opacity .5s steps(5),transform .5s steps(5)}
+.rv.in{opacity:1;transform:none}
+body.nomo *,body.nomo *::before,body.nomo *::after{animation:none!important;transition:none!important}
+body.nomo .rv{opacity:1;transform:none}
+html:has(body.nomo){scroll-behavior:auto}
+</style>
+</head>
+<body>
+<a class="skip" href="#conteudo">Pular para o conteúdo</a>
+<canvas id="fx" aria-hidden="true"></canvas>
+
+<header id="hud">
+  <div class="row">
+    <span class="hearts" aria-hidden="true">♥♥♥</span>
+    <span aria-hidden="true" id="score">SCORE 00000</span>
+    <nav aria-label="Seções do portfólio">
+      <a href="#inicio">INÍCIO</a><a href="#sobre">SOBRE</a><a href="#skills">SKILLS</a><a href="#certificados">CERTIFICADOS</a><a href="#projeto">PROJETO</a><a href="#writeups">WRITE-UPS</a><a href="#contato">CONTATO</a>
+    </nav>
+  </div>
+  <div id="xp" aria-hidden="true"><i></i></div>
+</header>
+
+<div id="hero" aria-hidden="true"><canvas id="sprite" width="12" height="16"></canvas></div>
+
+<main id="conteudo">
+<div class="zone-dev">
+  <section id="inicio">
+    <div class="sun" aria-hidden="true"></div>
+    <div class="wrap">
+      <h1>GABRIEL<br>DE VARGAS</h1>
+      <p class="sub">DEV · DESIGN · SEGURANÇA DA INFORMAÇÃO</p>
+      <div class="start">
+        <a class="btn" href="#sobre"><span class="blink" aria-hidden="true">▶</span>&nbsp;COMEÇAR</a>
+        <a class="btn alt" href="#projeto">VER PROJETO PRINCIPAL</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="sobre" class="pad">
+    <div class="wrap">
+      <span class="stage-tag rv">FASE 1 · JOGADOR</span>
+      <h2 class="title-h rv">SOBRE MIM</h2>
+      <p class="lead rv">Quem está por trás do código.</p>
+      <div class="about">
+        <div class="px rv">
+          <p>Sou o Gabriel de Vargas, estudante de Tecnologias da Informação e Comunicação (TIC), cursando a Universidade Federal de Santa Catarina. Tenho dois focos: desenvolver sites e apps, e entender segurança da informação, tanto o lado da defesa quanto o do ataque.</p>
+          <p>Aprendo por cursos e laboratórios e documento o que estudo: write-ups de salas do TryHackMe no modelo da UFSC OFFSEC e o HTTPFrequency, meu site e marca.</p>
+        </div>
+        <div class="px edu rv">
+          <h3>FORMAÇÃO</h3>
+          <p><b>Universidade Federal de Santa Catarina (UFSC)</b><br>Cursando Tecnologias da Informação e Comunicação (TIC)</p>
+          <p class="status">EM ANDAMENTO · AINDA NÃO CONCLUÍDO</p>
+          <div class="patch">
+            <img src="cisco-badge.png" width="96" height="96" alt="Selo digital da Cisco Networking Academy: Cybersecurity Defense Analyst Career Path">
+            <span>Selo Cisco · Cybersecurity Defense Analyst Career Path</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="skills" class="pad">
+    <div class="wrap">
+      <span class="stage-tag rv">FASE 2 · STATUS</span>
+      <h2 class="title-h rv">HABILIDADES</h2>
+      <p class="lead rv">O XP vem de horas de curso concluídas e do uso em projetos e write-ups.</p>
+      <div class="skill-cols" id="skillCols"></div>
+    </div>
+  </section>
+
+  <section id="certificados" class="pad">
+    <div class="wrap">
+      <span class="stage-tag rv">FASE 3 · CERTIFICADOS</span>
+      <h2 class="title-h rv">CERTIFICAÇÕES</h2>
+      <p class="lead rv">Organizadas por trilha. Clique em um módulo para abrir o certificado em PDF.</p>
+      <div class="skill-cols" id="certGrid"></div>
+      <h2 class="title-h rv">CONQUISTAS</h2>
+      <ul class="badges" id="badges"></ul>
+    </div>
+  </section>
+</div>
+
+<section id="descida" aria-labelledby="descTitle">
+  <div class="dots" aria-hidden="true"></div>
+  <div class="wrap">
+    <h2 id="descTitle">▼ DESCENDO PARA A ZONA DE SEGURANÇA ▼</h2>
+    <div class="arrows" aria-hidden="true">▼ ▼ ▼</div>
+    <div class="layer" aria-hidden="true">CAMADA 1 · PROGRAMAÇÃO<br>CAMADA 2 · LINUX E TERMINAL<br>CAMADA 3 · REDES E DEFESA CIBERNÉTICA<br>CAMADA 4 · LABORATÓRIOS E WRITE-UPS</div>
+  </div>
+</section>
+
+<div class="zone-sec">
+  <section id="projeto" class="pad">
+    <div class="wrap">
+      <span class="stage-tag rv">FASE 4 · PROJETO PRINCIPAL</span>
+      <h2 class="title-h rv">HTTPFREQUENCY</h2>
+      <p class="lead rv">Meu site e marca com tema de radar.</p>
+      <article class="px feat rv" id="featured"></article>
+    </div>
+  </section>
+
+  <section id="writeups" class="pad">
+    <div class="wrap">
+      <span class="stage-tag rv">FASE 5 · MISSÕES</span>
+      <h2 class="title-h rv">WRITE-UPS</h2>
+      <p class="lead rv">Salas do TryHackMe documentadas em relatório técnico (modelo UFSC OFFSEC). Clique em uma missão para ver o resumo e baixar o PDF.</p>
+      <div class="quests" id="quests"></div>
+    </div>
+  </section>
+
+  <section id="contato" class="pad">
+    <div class="wrap">
+      <span class="stage-tag rv">SAVE POINT</span>
+      <h2 class="title-h rv">CONTATO</h2>
+      <p class="lead rv">Checkpoint alcançado. Escolha um canal para continuar a conversa.</p>
+      <div class="save-grid" id="save"></div>
+    </div>
+  </section>
+</div>
+</main>
+
+<footer>
+  <div>© <span id="yr"></span> GABRIEL DE VARGAS</div>
+  <div><a href="#inicio">▲ VOLTAR AO INÍCIO</a></div>
+</footer>
+
+<div id="modal" role="dialog" aria-modal="true" aria-labelledby="mTitle"><div class="box" id="mBox"></div></div>
+
+<script>
+/* ================= CONFIGURAÇÃO ================= */
+const CFG = {
+  github: 'https://github.com/biel-444',
+  linkedin: 'https://www.linkedin.com/in/gabriel-de-vargas-a1014b2b0',
+  instagram: 'https://instagram.com/gabrieldevargas_',
+  email: ''
+};
+
+const FEATURED = {
+  title:'HTTPFREQUENCY', status:'NO AR', link:'https://www.httpfrequency.com.br',
+  desc:'Site e identidade visual do HTTPFrequency, com tema de radar antigo.',
+  points:['Monograma "HF" com pulso de frequência; o nome completo aparece ao passar o mouse','Favicon de radar com o HF dentro','Fundo com sonda de radar verde animada'],
+  tags:['Identidade visual','HTML','CSS','JS']
+};
+
+const WRITEUPS = [
+  { id:'brooklyn', title:'Brooklyn Nine-Nine', date:'08/11/2026', diff:'FÁCIL', stars:1, file:'writeups/brooklyn-nine-nine.pdf',
+    tags:['Nmap','FTP anônimo','Steghide','SSH','sudo nano'],
+    summary:'Servidor Linux inspirado na série. O acesso inicial vem de uma pista no FTP anônimo e de uma imagem com esteganografia; a escalação acontece por uma permissão de sudo no editor nano.',
+    chain:['Nmap: portas 21, 22 e 80','FTP anônimo: nota deixada para outro usuário','Esteganografia na imagem do site revela uma senha','SSH como o usuário holt','sudo /bin/nano sem senha: shell como root'] },
+  { id:'pickle', title:'Pickle Rick', date:'08/11/2026', diff:'FÁCIL', stars:1, file:'writeups/pickle-rick.pdf',
+    tags:['Nmap','GoBuster','robots.txt','sudo'],
+    summary:'Enumeração web em ambiente Linux: credenciais escondidas no código-fonte e no robots.txt levam a um painel de comandos, e um sudo permissivo dá acesso ao /root.',
+    chain:['Nmap: SSH (22) e HTTP (80)','GoBuster: /robots.txt, /login.php, /portal.php','Usuário no código-fonte, senha no robots.txt','Painel de comandos: recuperar as respostas','sudo sem restrição: ler o diretório /root'] },
+  { id:'allinone', title:'All in One', date:'01/11/2026', diff:'FÁCIL', stars:1, file:'writeups/all-in-one.pdf',
+    tags:['Nmap','Gobuster','Vigenère','WordPress','Reverse shell','socat'],
+    note:'Nota de transparência do próprio relatório: a sequência foi reconstruída a partir de write-ups públicos da sala.',
+    summary:'Laboratório Linux com várias rotas de ataque. O relatório segue a rota principal e lista as alternativas (LFI em plugin e outras).',
+    chain:['Nmap: FTP, SSH e HTTP','/hackathons: comentário HTML com texto cifrado','Decodificação por cifra de Vigenère','Acesso admin ao WordPress e reverse shell PHP (www-data)','Senha de outro usuário em arquivo local','sudo em socat: escalação para root'] },
+  { id:'billing', title:'Billing', date:'13/09/2026', diff:'FÁCIL/MÉDIA', stars:2, file:'writeups/billing.pdf',
+    tags:['Nmap','Gobuster','Metasploit','CVE-2023-30258','fail2ban'],
+    summary:'Instância mal configurada do MagnusBilling (faturamento VoIP sobre Asterisk). Execução remota não autenticada para o acesso inicial e sudo inseguro em fail2ban-client para chegar a root.',
+    chain:['Nmap + Gobuster: painel em /mbilling/','Identificar a versão do MagnusBilling','CVE-2023-30258: injeção de comando no módulo Icepay','Shell como usuário de serviço do Asterisk','sudo em fail2ban-client: comandos como root'] },
+  { id:'crack', title:'Crack the Hash', date:'2026', diff:'FÁCIL', stars:1, file:'writeups/crack-the-hash.pdf', xp:'320 PTS',
+    tags:['Hashcat','hash-identifier','rockyou.txt','CrackStation'],
+    summary:'Identificar o algoritmo de cada hash, escolher o modo certo do Hashcat e rodar ataque de dicionário. Inclui bcrypt, NTLM e SHA-1 com salt.',
+    chain:['Observar tamanho, formato e assinatura do hash','Confirmar o tipo com um identificador','Escolher o modo do Hashcat','Rodar com rockyou.txt e validar o resultado'] }
+];
+
+const CERTS = [
+  // org: 'Estudonauta' (horas contam para o XP de estudo) ou 'Cisco'
+  { trail:'PROGRAMAÇÃO', org:'Estudonauta', topic:'Java',  title:'Java Básico · módulo 00', h:40, d:'2026-10-06', f:'certificados/estudonauta-java-basico-m00.pdf' },
+  { trail:'PROGRAMAÇÃO', org:'Estudonauta', topic:'Java',  title:'Java POO · módulo 00', h:40, d:'2026-10-12', f:'certificados/estudonauta-java-poo-m00.pdf' },
+  { trail:'PROGRAMAÇÃO', org:'Estudonauta', topic:'PHP',   title:'PHP Moderno · módulo 1', h:40, d:'2025-12-14', f:'certificados/estudonauta-php-moderno-m01.pdf' },
+  { trail:'PROGRAMAÇÃO', org:'Estudonauta', topic:'Linguagem C', title:'Linguagem C · primeiros passos', h:20, d:'2026-10-11', f:'certificados/estudonauta-linguagem-c-m00.pdf' },
+  { trail:'LINUX', org:'Estudonauta', topic:'Linux', title:'Primeiros passos · módulo 00', h:20, d:'2026-05-06', f:'certificados/estudonauta-linux-m00.pdf' },
+  { trail:'LINUX', org:'Estudonauta', topic:'Linux', title:'Interface e terminal · módulo 01', h:20, d:'2026-05-07', f:'certificados/estudonauta-linux-m01.pdf' },
+  { trail:'LINUX', org:'Estudonauta', topic:'Linux', title:'Pacotes e gestão de processos · módulo 02', h:20, d:'2026-10-12', f:'certificados/estudonauta-linux-m02.pdf' },
+  { trail:'REDES DE COMPUTADORES', org:'Estudonauta', topic:'Redes de computadores', title:'Fundamentos de rede · módulo 00', h:20, d:'2026-04-30', f:'certificados/estudonauta-redes-m00.pdf' },
+  { trail:'REDES DE COMPUTADORES', org:'Estudonauta', topic:'Redes de computadores', title:'Cabeamento · módulo 01', h:20, d:'2026-04-30', f:'certificados/estudonauta-redes-m01.pdf' },
+  { trail:'REDES DE COMPUTADORES', org:'Estudonauta', topic:'Redes de computadores', title:'TCP/IP e Wi-Fi · módulo 02', h:20, d:'2026-05-01', f:'certificados/estudonauta-redes-m02.pdf' },
+  { trail:'REDES DE COMPUTADORES', org:'Estudonauta', topic:'Redes de computadores', title:'Endereçamento IP · módulo 03', h:20, d:'2026-05-01', f:'certificados/estudonauta-redes-m03.pdf' },
+  { trail:'REDES DE COMPUTADORES', org:'Estudonauta', topic:'Redes de computadores', title:'Equipamentos de rede · módulo 04', h:20, d:'2026-05-01', f:'certificados/estudonauta-redes-m04.pdf' },
+  { trail:'REDES DE COMPUTADORES', org:'Estudonauta', topic:'Redes de computadores', title:'Protocolos e modelo OSI · módulo 05', h:20, d:'2026-05-02', f:'certificados/estudonauta-redes-m05.pdf' },
+  { trail:'REDES DE COMPUTADORES', org:'Estudonauta', topic:'Redes de computadores', title:'Transmissão de sinal · módulo 06', h:20, d:'2026-05-05', f:'certificados/estudonauta-redes-m06.pdf' },
+  { trail:'SEGURANÇA DA INFORMAÇÃO', org:'Estudonauta', topic:'Segurança da informação', title:'Pilares e principais riscos · módulo 00', h:20, d:'2025-12-26', f:'certificados/estudonauta-seguranca-m00.pdf' },
+  { trail:'SEGURANÇA DA INFORMAÇÃO', org:'Estudonauta', topic:'Segurança da informação', title:'Redes sociais, senhas e verificação em duas etapas · módulo 01', h:20, d:'2026-08-15', f:'certificados/estudonauta-seguranca-m01.pdf' },
+  { trail:'SEGURANÇA DA INFORMAÇÃO', org:'Estudonauta', topic:'Segurança da informação', title:'Privacidade, proteção e vazamento de dados · módulo 02', h:20, d:'2026-10-10', f:'certificados/estudonauta-seguranca-m02.pdf' },
+  { trail:'SEGURANÇA DA INFORMAÇÃO', org:'Estudonauta', topic:'Segurança da informação', title:'Redes e backup · módulo 03', h:20, d:'2026-10-11', f:'certificados/estudonauta-seguranca-m03.pdf' },
+  { trail:'SEGURANÇA DA INFORMAÇÃO', org:'Estudonauta', topic:'Segurança da informação', title:'Comércio eletrônico · módulo 05', h:20, d:'2026-10-25', f:'certificados/estudonauta-seguranca-m05.pdf' },
+  { trail:'DEFESA CIBERNÉTICA · CISCO', org:'Cisco', title:'Cybersecurity Defense Analyst Career Path', d:'2026-11-02', f:'certificados/cisco-cybersecurity-defense-analyst-career-path.pdf' },
+  { trail:'DEFESA CIBERNÉTICA · CISCO', org:'Cisco', title:'Cybersecurity Defense Analyst Pathway Exam', d:'2026-11-02', f:'certificados/cisco-cybersecurity-defense-analyst-exam.pdf' }
+];
+const TRAIL_ORDER = ['DEFESA CIBERNÉTICA · CISCO','SEGURANÇA DA INFORMAÇÃO','REDES DE COMPUTADORES','LINUX','PROGRAMAÇÃO'];
+const TRAIL_ORG = { 'DEFESA CIBERNÉTICA · CISCO':'Cisco Networking Academy' };
+
+// Competências citadas no certificado do Cisco Cybersecurity Defense Analyst Career Path
+const CISCO_SKILLS = ['Tríade CIA e gestão de risco','MITRE ATT&CK','Papel do analista de SOC','Splunk e SPL','Triagem e investigação de incidentes','Threat hunting (PEAK)'];
+const INVENTORY = ['Flutter / Dart','SQLite','Figma'];
+
+// Prática: em quantos itens do site (projeto principal + write-ups) a palavra-chave aparece nas tags.
+const PRACTICE = [
+  { n:'Nmap', k:['nmap'] }, { n:'Escalação via sudo', k:['sudo','fail2ban','socat'] }, { n:'Gobuster', k:['gobuster'] },
+  { n:'Hashcat', k:['hashcat'] }, { n:'Metasploit', k:['metasploit'] }, { n:'Esteganografia', k:['steghide'] },
+  { n:'HTML / CSS / JS', k:['html','css','js'] }, { n:'Identidade visual', k:['identidade'] }
+];
+
+/* ================= HELPERS ================= */
+const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
+const esc = s => String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+if(reduce) document.body.classList.add('nomo');
+const NEWTAB = '<span class="sr"> (abre em nova aba)</span>';
+
+/* ================= CONTEÚDO ================= */
+$('#yr').textContent = new Date().getFullYear();
+
+$('#featured').innerHTML = `<div class="st">${esc(FEATURED.status)}</div>
+  <h3>${esc(FEATURED.title)}</h3>
+  <p>${esc(FEATURED.desc)}</p>
+  <ul>${FEATURED.points.map(p=>`<li>${esc(p)}</li>`).join('')}</ul>
+  <div class="tags">${FEATURED.tags.map(t=>`<span>${esc(t)}</span>`).join('')}</div>
+  <a class="btn" href="${FEATURED.link}" target="_blank" rel="noopener">ABRIR SITE${NEWTAB}</a>`;
+
+$('#quests').innerHTML = WRITEUPS.map(w=>`<button type="button" class="quest rv" data-id="${w.id}" aria-haspopup="dialog">
+  <span class="ico" aria-hidden="true">📜</span>
+  <span><b>${esc(w.title)}</b><small>${esc(w.date)} · ${esc(w.diff)} · ${w.tags.slice(0,3).map(esc).join(' / ')}</small></span>
+  <span class="xp"><span class="stars" aria-label="Dificuldade ${w.stars} de 3">${'★'.repeat(w.stars)}${'☆'.repeat(3-w.stars)}</span><br>VER RESUMO ▶</span></button>`).join('');
+
+const fmtD = d => d.split('-').reverse().join('/');
+// habilidades: estudo (horas) e prática (usos)
+const studyMap = {}; CERTS.filter(c=>c.org==='Estudonauta').forEach(c=>{ studyMap[c.topic]=(studyMap[c.topic]||0)+c.h; });
+const study = Object.entries(studyMap).sort((a,b)=>b[1]-a[1]);
+const items = [FEATURED,...WRITEUPS].map(x=>x.tags.map(t=>t.toLowerCase()));
+const practice = PRACTICE.map(s=>({n:s.n, v: items.filter(tags=>tags.some(t=>s.k.some(k=>t.includes(k)))).length})).filter(s=>s.v>0).sort((a,b)=>b.v-a.v);
+const bars = (v,max) => `<div class="bar" aria-hidden="true">${Array.from({length:max},(_,i)=>`<i class="${i<v?'on':''}"></i>`).join('')}</div>`;
+const maxStudy = Math.ceil(Math.max(...study.map(s=>s[1]))/20), maxPr = Math.max(...practice.map(s=>s.v));
+$('#skillCols').innerHTML = `
+  <div class="px rv"><h3>ESTUDO</h3><div class="sub-h">HORAS DE CURSO CONCLUÍDAS</div>${study.map(([n,h])=>`<div class="skill"><div class="n"><span>${esc(n)}</span><small>${h} h</small></div>${bars(h/20,maxStudy)}</div>`).join('')}</div>
+  <div class="px rv"><h3>PRÁTICA</h3><div class="sub-h">USOS EM PROJETO E WRITE-UPS</div>${practice.map(s=>`<div class="skill"><div class="n"><span>${esc(s.n)}</span><small>${s.v} ${s.v===1?'uso':'usos'}</small></div>${bars(s.v,maxPr)}</div>`).join('')}</div>
+  <div class="px rv"><h3>SOC / DEFESA</h3><div class="sub-h">DO CURSO CISCO</div><div class="chips">${CISCO_SKILLS.map(s=>`<span>${esc(s)}</span>`).join('')}</div>
+    <div class="sub-h">TAMBÉM NO INVENTÁRIO</div><div class="chips">${INVENTORY.map(s=>`<span>${esc(s)}</span>`).join('')}</div></div>`;
+
+// certificados por trilha
+$('#certGrid').innerHTML = TRAIL_ORDER.map(t=>{
+  const list=CERTS.filter(c=>c.trail===t), hours=list.reduce((a,c)=>a+(c.h||0),0);
+  return `<div class="px trail rv"><h3>${esc(t)}</h3>
+    <div class="meta">${list.length} ${list.length===1?'CERTIFICADO':'CERTIFICADOS'}${hours?` · ${hours} H`:''}${TRAIL_ORG[t]?`<br>${esc(TRAIL_ORG[t])}`:`<br>Estudonauta`}</div>
+    <ul class="mods">${list.map(c=>`<li><a href="${c.f}" target="_blank" rel="noopener"><span>${esc(c.title)}${NEWTAB}</span><small>${fmtD(c.d)}</small></a></li>`).join('')}</ul></div>`;
+}).join('');
+
+// conquistas
+const TRAIL_COUNT = new Set(CERTS.map(c=>c.trail)).size;
+const ESTUD_TRAILS = new Set(CERTS.filter(c=>c.org==='Estudonauta').map(c=>c.trail)).size;
+const totalH = CERTS.reduce((a,c)=>a+(c.h||0),0);
+const BADGES = [
+  { ico:String(TRAIL_COUNT), icon:'seal', name:'TRILHAS CERTIFICADAS', sub:`${ESTUD_TRAILS} da Estudonauta e 1 da Cisco Networking Academy · ${CERTS.length} certificados` },
+  { ico:String(totalH), icon:'clock', name:'HORAS DE CURSO', sub:`${CERTS.filter(c=>c.org==='Estudonauta').length} módulos concluídos na Estudonauta` },
+  { img:'cisco-badge.png', alt:'Selo digital da Cisco Networking Academy: Cybersecurity Defense Analyst Career Path', name:'CISCO DEFENSE ANALYST', sub:'Career Path e exame concluídos em 02/11/2026' },
+  { ico:'HF', icon:'hf', name:'SITE NO AR', sub:'HTTPFrequency em www.httpfrequency.com.br' }
+];
+const MINI = { seal:'<svg class="mini" viewBox="0 0 12 12" width="22" height="22" shape-rendering="crispEdges" aria-hidden="true"><path fill="#e8554e" d="M3 7h2v5H4l-1-1zM7 7h2v4l-1 1H7z"/><path fill="#ffd23f" d="M4 0h4v1h2v2h1v4h-1v2H8v1H4V9H2V7H1V3h1V1h2z"/><path fill="#2a1d3a" d="M5 3h2v1h1v1H7v1h1v1H6V6H5V5H4V4h1z" opacity=".55"/></svg>', clock:'<svg class="mini" viewBox="0 0 12 12" width="22" height="22" shape-rendering="crispEdges" aria-hidden="true"><path fill="#2a1d3a" d="M4 0h4v1h2v1h1v2h1v4h-1v2h-1v1H8v1H4v-1H2v-1H1V8H0V4h1V2h1V1h2z"/><path fill="#fff3d6" d="M4 1h4v1h2v2h1v4h-1v2H8v1H4v-1H2V8H1V4h1V2h2z"/><path fill="#2a1d3a" d="M5 2h2v4h2v1H5z"/></svg>' };
+const HF_SVG = '<svg viewBox="0 0 16 14" width="44" height="38" shape-rendering="crispEdges"><path fill="#1d6b3a" d="M1 1h2v4h2V1h2v10H5V7H3v4H1zM9 1h6v2h-4v2h3v2h-3v4H9z"/><path fill="#2a1d3a" d="M0 13h4l1-2 1 2 1-3 1 3h8v1H0z"/></svg>';
+$('#badges').innerHTML = BADGES.map(b=>`<li class="px badge rv">
+  ${b.img?`<img class="medal-img" src="${b.img}" width="88" height="88" alt="${esc(b.alt)}">`:`<span class="mw" aria-hidden="true"><span class="medal${b.icon==='hf'?' hf':''}">${b.icon==='hf'?HF_SVG:esc(b.ico)}</span>${b.icon&&b.icon!=='hf'?`<span class="corner">${MINI[b.icon]}</span>`:''}</span>`}
+  <b>${esc(b.name)}</b><small>${esc(b.sub)}</small>
+  <span class="tag">CONQUISTADO</span></li>`).join('');
+
+const linkedinReady = !CFG.linkedin.includes('SEU-PERFIL');
+const contacts = [
+  ['GITHUB',CFG.github,'Código e projetos'],
+  ['LINKEDIN',linkedinReady?CFG.linkedin:'','Conecte-se comigo'],
+  ['INSTAGRAM',CFG.instagram,'@gabrieldevargas_']
+];
+if(CFG.email) contacts.push(['E-MAIL','mailto:'+CFG.email,CFG.email]);
+$('#save').innerHTML = contacts.map(([n,h,s])=> h
+  ? `<a class="px hov rv" href="${h}" target="_blank" rel="noopener"><b>${n} ↗${NEWTAB}</b>${esc(s)}</a>`
+  : `<div class="px off rv"><b>${n}</b>Link em breve</div>`).join('');
+
+/* ================= MODAL (foco preso, fundo inerte) ================= */
+const modal=$('#modal'), mBox=$('#mBox'); let lastFocus;
+const bgEls = () => $$('main,header,footer,.skip');
+function openW(id){
+  const w=WRITEUPS.find(x=>x.id===id); if(!w) return;
+  lastFocus=document.activeElement;
+  mBox.innerHTML=`<h3 id="mTitle">${esc(w.title)}</h3>
+    <div class="meta">${esc(w.date)} · ${esc(w.diff)} · <span class="stars" aria-hidden="true">${'★'.repeat(w.stars)}${'☆'.repeat(3-w.stars)}</span>${w.xp?' · '+esc(w.xp):''}</div>
+    ${w.note?`<div class="note">${esc(w.note)}</div>`:''}
+    <p>${esc(w.summary)}</p>
+    <ol>${w.chain.map(c=>`<li>${esc(c)}</li>`).join('')}</ol>
+    <div class="tags">${w.tags.map(t=>`<span>${esc(t)}</span>`).join('')}</div>
+    <div class="acts"><a class="btn" href="${w.file}" target="_blank" rel="noopener">BAIXAR RELATÓRIO (PDF)${NEWTAB}</a><button type="button" class="btn alt" id="mClose">FECHAR</button></div>`;
+  modal.classList.add('open'); bgEls().forEach(e=>e.inert=true);
+  $('#mClose').onclick=closeW; $('#mClose').focus();
+}
+function closeW(){ modal.classList.remove('open'); bgEls().forEach(e=>e.inert=false); lastFocus&&lastFocus.focus&&lastFocus.focus(); }
+modal.addEventListener('click',e=>{ if(e.target===modal) closeW(); });
+addEventListener('keydown',e=>{
+  if(!modal.classList.contains('open')) return;
+  if(e.key==='Escape') closeW();
+  if(e.key==='Tab'){ const f=[...mBox.querySelectorAll('a,button')]; const a=f[0], z=f[f.length-1];
+    if(e.shiftKey&&document.activeElement===a){e.preventDefault();z.focus();} else if(!e.shiftKey&&document.activeElement===z){e.preventDefault();a.focus();} }
+});
+$$('.quest').forEach(q=>q.onclick=()=>openW(q.dataset.id));
+
+/* ================= SPRITE (preto e verde, igual em todo o site) ================= */
+const W=12;
+const rows=a=>a.map(r=>(r+'............').slice(0,W));
+const LEG_A=["..bbb..bbb..",".bbb....bbb.",".bb......bb.",".kk......kk.",""];
+const LEG_B=["...bb..bb...","...bb..bb...","...bb..bb...","...kk..kk...",""];
+const TOP=["..........s.","..........s.","...hhhhhh.s.","...hssssh.s.","...sesses.s.","...ssssss.s.","..pppppppps.",".spppppppp..",".spppppppp..","..pppppppp..","...bbbbbb..."];
+const FR={
+ hangA:rows([...TOP,...LEG_A]),
+ hangB:rows([...TOP,...LEG_B]),
+ jump: rows(["....hhhh","s..hhhhhh.s","s..hssssh.s","s..sesses.s","s..ssssss.s","s...ssss..s","s.pppppppp.s",".spppppppps",".spppppppps","..pppppppp","..bbb..bbb",".bbb....bbb",".bb......bb",".kk......kk","",""])
+};
+const PAL={h:'#0a0a0a',s:'#d2ad8e',e:'#00ff88',p:'#161b1c',b:'#0a0d0c',k:'#00ff88'};
+const sctx=$('#sprite').getContext('2d'); let curFrame='';
+function drawSprite(f){ if(f===curFrame) return; curFrame=f; sctx.clearRect(0,0,W,16);
+  FR[f].forEach((r,y)=>[...r].forEach((c,x)=>{ const col=PAL[c]; if(col){ sctx.fillStyle=col; sctx.fillRect(x,y,1,1);} })); }
+drawSprite('hangA');
+
+/* ================= BONECO PENDURADO NAS CAIXAS ================= */
+// O boneco segura o canto superior esquerdo de uma caixa (as da primeira coluna). Ao rolar, solta e pula para a próxima.
+// A caixa balança como mola, proporcional ao peso (menos para caixas largas).
+const heroEl=$('#hero'), spriteEl=$('#sprite');
+let vh=0,vw=0,docH=0,scale=6,ledges=[];
+const layout = el => { let x=0,y=0,e=el; while(e){ x+=e.offsetLeft; y+=e.offsetTop; e=e.offsetParent; } return {x,y,w:el.offsetWidth}; };
+function measure(){
+  vh=innerHeight; vw=innerWidth; docH=document.documentElement.scrollHeight;
+  scale=heroEl.offsetWidth/12;
+  spriteEl.style.transformOrigin=`${10.5*scale}px ${scale}px`;
+  const all=$$('main .px,main .quest,#inicio .sub').filter(e=>e.offsetWidth>120).map(el=>({el,...layout(el)}));
+  const minX=Math.min(...all.map(a=>a.x));
+  ledges=all.filter(a=>a.x<=minX+8);
+}
+const recs=new Map();
+function getRec(el){ let r=recs.get(el); if(!r){ r={ang:0,vel:0,sag:0,hang:false}; el.style.transformOrigin='100% 0'; recs.set(el,r);} return r; }
+function kick(l){ if(reduce) return; const r=getRec(l.el); r.hang=true; r.sag=-Math.min(1.4,420/l.w); r.vel+=-Math.min(22,6600/l.w); }
+function release(l){ const r=recs.get(l.el); if(!r) return; r.hang=false; r.sag=0; if(!reduce) r.vel+=Math.min(14,4200/l.w); }
+function stepSprings(dt){
+  for(const [el,r] of recs){
+    const acc=-60*(r.ang-r.sag)-5*r.vel; r.vel+=acc*dt; r.ang+=r.vel*dt;
+    el.style.rotate=r.ang.toFixed(3)+'deg';
+    if(!r.hang&&Math.abs(r.ang)<.02&&Math.abs(r.vel)<.05){ el.style.rotate=''; recs.delete(el); }
+  }
+}
+function handTarget(l){
+  const r=recs.get(l.el), th=(r?r.ang:0)*Math.PI/180;
+  const cx=l.x+l.w-l.w*Math.cos(th), cy=l.y-scrollY-l.w*Math.sin(th);
+  return { x:cx-4-10.5*scale, y:cy+scale*1.2-scale };
+}
+const TOP_MIN=92, ANCHOR=.45;
+let cur=null, mode='init', pos={x:-200,y:-200}, from={x:0,y:0}, jt0=0, landT=0, vy=0, lastT=performance.now(), frameT=0, legB=false;
+function pickLedge(){
+  const lo=TOP_MIN, hi=vh-150, anchor=vh*ANCHOR; let best=null,bd=1e9;
+  ledges.forEach(l=>{ const t=l.y-scrollY; if(t<lo||t>hi) return; const d=Math.abs(t-anchor); if(d<bd){bd=d;best=l;} });
+  if(cur&&best&&best!==cur){ const ct=cur.y-scrollY; if(ct>=lo&&ct<=hi&&bd>Math.abs(ct-anchor)-24) best=cur; }
+  return best;
+}
+function switchTo(n,now){
+  if(cur) release(cur);
+  from={x:pos.x,y:pos.y}; cur=n;
+  if(n){ if(reduce||mode==='init'){ mode='hang'; landT=now; kick(n); } else { mode='jump'; jt0=now; } }
+  else { mode=(mode==='init')?'init':'fall'; vy=0; }
+}
+function frame(now){
+  const dt=Math.min(.05,(now-lastT)/1000); lastT=now;
+  const best=pickLedge(); if(best!==cur) switchTo(best,now);
+  stepSprings(dt);
+  let vis=1, f='hangA', pend=0;
+  if(cur){
+    const t=handTarget(cur);
+    if(mode==='jump'){
+      const u=Math.min(1,(now-jt0)/420), e=u<.5?2*u*u:1-2*(1-u)*(1-u);
+      pos.x=from.x+(t.x-from.x)*e; pos.y=from.y+(t.y-from.y)*e-4*60*u*(1-u);
+      f=u>.75?'hangA':'jump';
+      if(u>=1){ mode='hang'; landT=now; kick(cur); }
+    } else { pos.x=t.x; pos.y=t.y; mode='hang'; }
+    if(mode==='hang'){
+      if(now-frameT>380){ legB=!legB; frameT=now; }
+      f=legB?'hangB':'hangA';
+      const s=(now-landT)/1000;
+      pend=reduce?0:(12*Math.exp(-s*1.1)*Math.sin(s*5.5)+2*Math.sin(now/650));
+    }
+  } else if(mode==='fall'){
+    vy+=1700*dt; pos.y+=vy*dt; f='jump'; if(pos.y>vh+30) vis=0;
+  } else vis=0;
+  drawSprite(f);
+  spriteEl.style.transform=`rotate(${pend.toFixed(2)}deg)`;
+  heroEl.style.transform=`translate(${pos.x.toFixed(1)}px,${pos.y.toFixed(1)}px)`;
+  heroEl.style.opacity=vis;
+  hud(); fx(now);
+  requestAnimationFrame(frame);
+}
+
+/* ================= HUD / ZONA ================= */
+let zoneSec=false;
+function hud(){
+  const maxS=Math.max(1,docH-vh), p=Math.min(1,Math.max(0,scrollY/maxS));
+  $('#xp i').style.width=(p*100)+'%';
+  $('#score').textContent='SCORE '+String(Math.round(p*9999)).padStart(5,'0');
+  const d=$('#descida'); const dT=d.offsetTop, dH=d.offsetHeight;
+  const sec=(scrollY+vh*.5)>dT+dH*.55;
+  if(sec!==zoneSec){ zoneSec=sec; document.body.classList.toggle('zone-sec-on',sec); }
+}
+
+/* ================= FUNDO (nuvens / chuva de dados / radar) ================= */
+const cv=$('#fx'), cx=cv.getContext('2d'); let CW,CH,clouds=[],cols=[],ang=0;
+function sizeFx(){ CW=cv.width=innerWidth; CH=cv.height=innerHeight;
+  clouds=Array.from({length:7},()=>({x:Math.random()*CW,y:90+Math.random()*(CH*.5),s:2+Math.floor(Math.random()*3),v:.15+Math.random()*.25}));
+  cols=Array.from({length:Math.ceil(CW/22)},()=>({y:Math.random()*CH,v:1+Math.random()*2.2})); }
+function cloud(x,y,s){ cx.fillStyle='#fff'; [[2,0,6,1],[1,1,9,1],[0,2,11,2],[1,4,9,1]].forEach(([a,b,w,h])=>cx.fillRect(x+a*s*4,y+b*s*4,w*s*4,h*s*4)); }
+function fx(){
+  cx.clearRect(0,0,CW,CH);
+  const d=$('#descida'), dT=d.offsetTop, dH=d.offsetHeight;
+  const devA=Math.max(0,Math.min(1,(dT-scrollY-vh*.15)/(vh*.5)));
+  const c=scrollY+vh*.5, secA=Math.max(0,Math.min(1,(c-(dT+dH*.45))/(dH*.5)));
+  if(devA>0){ cx.globalAlpha=devA*.85;
+    clouds.forEach(k=>{ if(!reduce) k.x+=k.v; if(k.x>CW+120) k.x=-160; cloud(Math.round(k.x/4)*4,Math.round(k.y/4)*4,k.s); }); cx.globalAlpha=1; }
+  if(secA>0){
+    cx.fillStyle='#00ff88'; cx.font='16px VT323, monospace';
+    cols.forEach((k,i)=>{ if(!reduce) k.y+=k.v; if(k.y>CH+20) k.y=-20;
+      for(let j=0;j<8;j++){ cx.globalAlpha=secA*.26*(1-j/8); cx.fillText(((i*7+j+Math.floor(k.y/16))%3)?'0':'1',i*22,k.y-j*16); } });
+    const rx=CW*.82, ry=CH*.8, R=Math.min(CW,CH)*.32;
+    cx.globalAlpha=secA*.22; cx.strokeStyle='#00ff88'; cx.lineWidth=2;
+    for(let i=1;i<=3;i++){ cx.beginPath(); cx.arc(rx,ry,R*i/3,0,7); cx.stroke(); }
+    if(!reduce) ang+=.025;
+    for(let i=0;i<40;i++){ const a=ang-i*.02; cx.globalAlpha=secA*.3*(1-i/40); cx.beginPath(); cx.moveTo(rx,ry); cx.lineTo(rx+Math.cos(a)*R,ry+Math.sin(a)*R); cx.lineWidth=3; cx.stroke(); }
+    cx.globalAlpha=1; }
+}
+
+/* ================= REVEAL + INÍCIO ================= */
+const io=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} }),{threshold:.1});
+$$('.rv').forEach(el=>io.observe(el));
+addEventListener('resize',()=>{ sizeFx(); measure(); });
+addEventListener('load',measure);
+if(document.fonts&&document.fonts.ready) document.fonts.ready.then(measure);
+setInterval(measure,1500);
+sizeFx(); measure();
+requestAnimationFrame(frame);
+</script>
+</body>
+</html>
